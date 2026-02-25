@@ -184,28 +184,28 @@ $lblCpsL.TextAlign = 'MiddleRight'
 $card.Controls.Add($lblCpsL)
 
 $slBgL = New-Object System.Windows.Forms.Panel
-$slBgL.Location  = New-Object System.Drawing.Point(20, 142)
-$slBgL.Size      = New-Object System.Drawing.Size(260, 8)
+$slBgL.Location  = New-Object System.Drawing.Point(20, 136)
+$slBgL.Size      = New-Object System.Drawing.Size(260, 18)
 $slBgL.BackColor = $COL_IDLE
 $slBgL.Cursor    = [System.Windows.Forms.Cursors]::Hand
 $card.Controls.Add($slBgL)
 
 $fillL = New-Object System.Windows.Forms.Panel
 $fillL.Location  = New-Object System.Drawing.Point(0,0)
-$fillL.Size      = New-Object System.Drawing.Size(5,8)
+$fillL.Size      = New-Object System.Drawing.Size(5,18)
 $fillL.BackColor = $COL_YELLOW
 $fillL.Enabled   = $false
 $slBgL.Controls.Add($fillL)
 
 $sep1 = New-Object System.Windows.Forms.Panel
-$sep1.Location  = New-Object System.Drawing.Point(20, 160)
+$sep1.Location  = New-Object System.Drawing.Point(20, 164)
 $sep1.Size      = New-Object System.Drawing.Size(260, 1)
 $sep1.BackColor = $COL_BORDER
 $card.Controls.Add($sep1)
 
 $lblR0 = New-Object System.Windows.Forms.Label
 $lblR0.Text      = 'ACTION 2  —  RIGHT CLICK'
-$lblR0.Location  = New-Object System.Drawing.Point(20, 170)
+$lblR0.Location  = New-Object System.Drawing.Point(20, 174)
 $lblR0.Size      = New-Object System.Drawing.Size(260, 16)
 $lblR0.Font      = F 'Segoe UI' 8 'Bold'
 $lblR0.ForeColor = $COL_DIM
@@ -214,7 +214,7 @@ $card.Controls.Add($lblR0)
 
 $btnR = New-Object System.Windows.Forms.Button
 $btnR.Text      = 'BIND KEY'
-$btnR.Location  = New-Object System.Drawing.Point(20, 190)
+$btnR.Location  = New-Object System.Drawing.Point(20, 194)
 $btnR.Size      = New-Object System.Drawing.Size(110, 28)
 $btnR.FlatStyle = 'Flat'
 $btnR.BackColor = $COL_IDLE
@@ -227,7 +227,7 @@ $card.Controls.Add($btnR)
 
 $lblCpsR = New-Object System.Windows.Forms.Label
 $lblCpsR.Text      = '10 CPS'
-$lblCpsR.Location  = New-Object System.Drawing.Point(140, 190)
+$lblCpsR.Location  = New-Object System.Drawing.Point(140, 194)
 $lblCpsR.Size      = New-Object System.Drawing.Size(140, 28)
 $lblCpsR.Font      = F 'Segoe UI' 12 'Bold'
 $lblCpsR.ForeColor = $COL_YELLOW
@@ -236,28 +236,28 @@ $lblCpsR.TextAlign = 'MiddleRight'
 $card.Controls.Add($lblCpsR)
 
 $slBgR = New-Object System.Windows.Forms.Panel
-$slBgR.Location  = New-Object System.Drawing.Point(20, 224)
-$slBgR.Size      = New-Object System.Drawing.Size(260, 8)
+$slBgR.Location  = New-Object System.Drawing.Point(20, 228)
+$slBgR.Size      = New-Object System.Drawing.Size(260, 18)
 $slBgR.BackColor = $COL_IDLE
 $slBgR.Cursor    = [System.Windows.Forms.Cursors]::Hand
 $card.Controls.Add($slBgR)
 
 $fillR = New-Object System.Windows.Forms.Panel
 $fillR.Location  = New-Object System.Drawing.Point(0,0)
-$fillR.Size      = New-Object System.Drawing.Size(5,8)
+$fillR.Size      = New-Object System.Drawing.Size(5,18)
 $fillR.BackColor = $COL_YELLOW
 $fillR.Enabled   = $false
 $slBgR.Controls.Add($fillR)
 
 $sep2 = New-Object System.Windows.Forms.Panel
-$sep2.Location  = New-Object System.Drawing.Point(20, 243)
+$sep2.Location  = New-Object System.Drawing.Point(20, 256)
 $sep2.Size      = New-Object System.Drawing.Size(260, 1)
 $sep2.BackColor = $COL_BORDER
 $card.Controls.Add($sep2)
 
 $lblStatus = New-Object System.Windows.Forms.Label
 $lblStatus.Text      = '● READY'
-$lblStatus.Location  = New-Object System.Drawing.Point(0, 252)
+$lblStatus.Location  = New-Object System.Drawing.Point(0, 264)
 $lblStatus.Size      = New-Object System.Drawing.Size(300, 34)
 $lblStatus.Font      = F 'Segoe UI' 9 'Italic'
 $lblStatus.ForeColor = $COL_DIM
@@ -267,7 +267,7 @@ $card.Controls.Add($lblStatus)
 
 $lblCredits = New-Object System.Windows.Forms.Label
 $lblCredits.Text      = 'Made by dpsss0'
-$lblCredits.Location  = New-Object System.Drawing.Point(0, 286)
+$lblCredits.Location  = New-Object System.Drawing.Point(0, 298)
 $lblCredits.Size      = New-Object System.Drawing.Size(300, 22)
 $lblCredits.Font      = F 'Segoe UI' 7
 $lblCredits.ForeColor = [System.Drawing.Color]::FromArgb(55,55,55)
@@ -324,51 +324,47 @@ $slBgL.Add_MouseDown({
     param($s,$e)
     $S.dragSlL = $true
     $nc = [math]::Max(1,[math]::Min(500,[int]($e.X/260.0*500)))
-    $S['leftCps'] = $nc
-    $lblCpsL.Text = "$nc CPS"
-    $fillL.Width  = [math]::Max(2,[int](260*$nc/500.0))
+    $S['leftCps'] = $nc; $lblCpsL.Text = "$nc CPS"
+    $fillL.Width = [math]::Max(2,[int](260*$nc/500.0))
 })
-$slBgL.Add_MouseMove({
-    param($s,$e)
-    if (-not $S.dragSlL) { return }
-    $nc = [math]::Max(1,[math]::Min(500,[int]($e.X/260.0*500)))
-    $S['leftCps'] = $nc
-    $lblCpsL.Text = "$nc CPS"
-    $fillL.Width  = [math]::Max(2,[int](260*$nc/500.0))
-    if ($S.leftActive) {
-        if ($S.timerL) { $S.timerL.Stop(); $S.timerL.Dispose() }
-        $S.timerL = New-Object System.Windows.Forms.Timer
-        $S.timerL.Interval = [math]::Max(1,[int](1000.0/$S['leftCps']))
-        $S.timerL.Add_Tick({ Invoke-Expression "[$uid1]::ClickLeft()" })
-        $S.timerL.Start()
-    }
-})
-$slBgL.Add_MouseUp({ $S.dragSlL = $false })
-
 $slBgR.Add_MouseDown({
     param($s,$e)
     $S.dragSlR = $true
     $nc = [math]::Max(1,[math]::Min(500,[int]($e.X/260.0*500)))
-    $S['rightCps'] = $nc
-    $lblCpsR.Text = "$nc CPS"
-    $fillR.Width  = [math]::Max(2,[int](260*$nc/500.0))
+    $S['rightCps'] = $nc; $lblCpsR.Text = "$nc CPS"
+    $fillR.Width = [math]::Max(2,[int](260*$nc/500.0))
 })
-$slBgR.Add_MouseMove({
+
+$card.Add_MouseMove({
     param($s,$e)
-    if (-not $S.dragSlR) { return }
-    $nc = [math]::Max(1,[math]::Min(500,[int]($e.X/260.0*500)))
-    $S['rightCps'] = $nc
-    $lblCpsR.Text = "$nc CPS"
-    $fillR.Width  = [math]::Max(2,[int](260*$nc/500.0))
-    if ($S.rightActive) {
-        if ($S.timerR) { $S.timerR.Stop(); $S.timerR.Dispose() }
-        $S.timerR = New-Object System.Windows.Forms.Timer
-        $S.timerR.Interval = [math]::Max(1,[int](1000.0/$S['rightCps']))
-        $S.timerR.Add_Tick({ Invoke-Expression "[$uid1]::ClickRight()" })
-        $S.timerR.Start()
+    if ($S.dragSlL) {
+        $rx = $e.X - $slBgL.Left
+        $nc = [math]::Max(1,[math]::Min(500,[int]($rx/260.0*500)))
+        $S['leftCps'] = $nc; $lblCpsL.Text = "$nc CPS"
+        $fillL.Width = [math]::Max(2,[int](260*$nc/500.0))
+        if ($S.leftActive) {
+            if ($S.timerL) { $S.timerL.Stop(); $S.timerL.Dispose() }
+            $S.timerL = New-Object System.Windows.Forms.Timer
+            $S.timerL.Interval = [math]::Max(1,[int](1000.0/$nc))
+            $S.timerL.Add_Tick({ Invoke-Expression "[$uid1]::ClickLeft()" })
+            $S.timerL.Start()
+        }
+    }
+    if ($S.dragSlR) {
+        $rx = $e.X - $slBgR.Left
+        $nc = [math]::Max(1,[math]::Min(500,[int]($rx/260.0*500)))
+        $S['rightCps'] = $nc; $lblCpsR.Text = "$nc CPS"
+        $fillR.Width = [math]::Max(2,[int](260*$nc/500.0))
+        if ($S.rightActive) {
+            if ($S.timerR) { $S.timerR.Stop(); $S.timerR.Dispose() }
+            $S.timerR = New-Object System.Windows.Forms.Timer
+            $S.timerR.Interval = [math]::Max(1,[int](1000.0/$nc))
+            $S.timerR.Add_Tick({ Invoke-Expression "[$uid1]::ClickRight()" })
+            $S.timerR.Start()
+        }
     }
 })
-$slBgR.Add_MouseUp({ $S.dragSlR = $false })
+$card.Add_MouseUp({ $S.dragSlL = $false; $S.dragSlR = $false })
 
 $btnL.Add_Click({
     $S.waitL = $true
