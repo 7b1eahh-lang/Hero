@@ -7,14 +7,53 @@ $script:uid2 = -join ((65..90)+(97..122) | Get-Random -Count 13 | % {[char]$_})
 
 Add-Type -TypeDefinition @"
 using System;
+using System.Threading;
 using System.Runtime.InteropServices;
+
 public class $($script:uid1) {
     [DllImport("user32.dll")] static extern uint SendInput(uint n, INPUT[] i, int s);
     [StructLayout(LayoutKind.Sequential)] struct INPUT { public uint type; public MI mi; }
     [StructLayout(LayoutKind.Sequential)] struct MI { public int dx,dy; public uint md,fl,t; public IntPtr ei; }
-    public static void ClickLeft()  { var a=new INPUT[2]; a[0].type=a[1].type=0; a[0].mi.fl=2;  a[1].mi.fl=4;  SendInput(2,a,System.Runtime.InteropServices.Marshal.SizeOf(typeof(INPUT))); }
-    public static void ClickRight() { var a=new INPUT[2]; a[0].type=a[1].type=0; a[0].mi.fl=8;  a[1].mi.fl=16; SendInput(2,a,System.Runtime.InteropServices.Marshal.SizeOf(typeof(INPUT))); }
+
+    public static void ClickLeft() {
+        var a=new INPUT[2]; a[0].type=a[1].type=0; a[0].mi.fl=2; a[1].mi.fl=4;
+        SendInput(2,a,System.Runtime.InteropServices.Marshal.SizeOf(typeof(INPUT)));
+    }
+    public static void ClickRight() {
+        var a=new INPUT[2]; a[0].type=a[1].type=0; a[0].mi.fl=8; a[1].mi.fl=16;
+        SendInput(2,a,System.Runtime.InteropServices.Marshal.SizeOf(typeof(INPUT)));
+    }
+
+    private static Thread _threadL;
+    private static Thread _threadR;
+    private static volatile bool _runL = false;
+    private static volatile bool _runR = false;
+    private static volatile int  _cpsL = 10;
+    private static volatile int  _cpsR = 10;
+
+    public static void StartLeft(int cps)  { _cpsL=cps; if(_runL) return; _runL=true;  _threadL=new Thread(LoopL){IsBackground=true}; _threadL.Start(); }
+    public static void StopLeft()          { _runL=false; }
+    public static void StartRight(int cps) { _cpsR=cps; if(_runR) return; _runR=true;  _threadR=new Thread(LoopR){IsBackground=true}; _threadR.Start(); }
+    public static void StopRight()         { _runR=false; }
+    public static void SetCpsLeft(int cps) { _cpsL=cps; }
+    public static void SetCpsRight(int cps){ _cpsR=cps; }
+
+    private static void LoopL() {
+        while(_runL) {
+            ClickLeft();
+            int ms = Math.Max(1, (int)(1000.0/_cpsL));
+            Thread.Sleep(ms);
+        }
+    }
+    private static void LoopR() {
+        while(_runR) {
+            ClickRight();
+            int ms = Math.Max(1, (int)(1000.0/_cpsR));
+            Thread.Sleep(ms);
+        }
+    }
 }
+
 public class $($script:uid2) {
     [DllImport("user32.dll")] static extern short GetAsyncKeyState(int v);
     public static bool IsPressed(int v) { return (GetAsyncKeyState(v) & 0x8000) != 0; }
@@ -27,11 +66,11 @@ $script:leftActive=$false;  $script:rightActive=$false
 $script:waitL=$false;  $script:waitR=$false
 $script:skipL=$false;  $script:skipR=$false
 $script:prevL=$false;  $script:prevR=$false
-$script:timerL=$null;  $script:timerR=$null
 $script:timerPoll=$null; $script:timerAnim=$null
 $script:dragForm=$false; $script:dragPt=$null
 $script:draggingL=$false; $script:draggingR=$false
 $script:nodes=@()
+$script:bmp=New-Object System.Drawing.Bitmap(460,440)
 
 $keyMap=@{
     'F1'=0x70;'F2'=0x71;'F3'=0x72;'F4'=0x73;'F5'=0x74;'F6'=0x75
@@ -48,7 +87,7 @@ $keyMap=@{
 }
 
 $rng=New-Object System.Random
-for ($i=0;$i -lt 45;$i++) {
+for($i=0;$i -lt 45;$i++){
     $script:nodes+=[PSCustomObject]@{
         x=$rng.NextDouble()*460; y=$rng.NextDouble()*440
         vx=($rng.NextDouble()-0.5)*0.6; vy=($rng.NextDouble()-0.5)*0.6
@@ -67,36 +106,21 @@ $BK=[System.Drawing.Color]::Black
 
 function F($n,$sz,$b='Regular'){New-Object System.Drawing.Font($n,$sz,[System.Drawing.FontStyle]::$b)}
 
-$form=New-Object System.Windows.Forms.Form
-$form.Text='HERO Clicker'
-$form.ClientSize=New-Object System.Drawing.Size(460,440)
-$form.StartPosition='CenterScreen'
-$form.BackColor=$CB
-$form.FormBorderStyle='None'
-$form.TopMost=$true
-$form.KeyPreview=$true
-$form.DoubleBuffered=$true
-
-# ── Constellation: draw onto a Bitmap each tick, set as BackgroundImage ──
-$script:bmp=New-Object System.Drawing.Bitmap(460,440)
-
 function RenderConstellation {
     $g=[System.Drawing.Graphics]::FromImage($script:bmp)
     $g.SmoothingMode=[System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
     $g.Clear($CB)
-    $n=$script:nodes
-    $cnt=$n.Count
+    $nd=$script:nodes; $cnt=$nd.Count
     for($ai=0;$ai -lt $cnt;$ai++){
-        $a=$n[$ai]
+        $a=$nd[$ai]
         for($bi=$ai+1;$bi -lt $cnt;$bi++){
-            $b=$n[$bi]
+            $b=$nd[$bi]
             $dx=$a.x-$b.x; $dy=$a.y-$b.y
             $d=[math]::Sqrt($dx*$dx+$dy*$dy)
             if($d -lt 110){
                 $al=[int](65*(1.0-$d/110.0))
                 if($al -gt 0){
-                    $col=[System.Drawing.Color]::FromArgb($al,255,204,0)
-                    $p=New-Object System.Drawing.Pen($col,0.9)
+                    $p=New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb($al,255,204,0),0.9)
                     $g.DrawLine($p,[float]$a.x,[float]$a.y,[float]$b.x,[float]$b.y)
                     $p.Dispose()
                 }
@@ -111,9 +135,19 @@ function RenderConstellation {
     $g.Dispose()
     $form.BackgroundImage=$script:bmp
 }
+
+$form=New-Object System.Windows.Forms.Form
+$form.Text='HERO Clicker'
+$form.ClientSize=New-Object System.Drawing.Size(460,440)
+$form.StartPosition='CenterScreen'
+$form.BackColor=$CB
+$form.FormBorderStyle='None'
+$form.TopMost=$true
+$form.KeyPreview=$true
+$form.DoubleBuffered=$true
+
 RenderConstellation
 
-# ── Card ──
 $card=New-Object System.Windows.Forms.Panel
 $card.Location=New-Object System.Drawing.Point(80,50)
 $card.Size=New-Object System.Drawing.Size(300,336)
@@ -149,10 +183,8 @@ function MakeSep($y){
 }
 MakeSep 78; MakeSep 165; MakeSep 254
 
-# ── Slider constants ──
 $SW=240; $TH=14; $TK=6; $TV=22
 
-# ── LEFT SLOT ──
 $lblL=New-Object System.Windows.Forms.Label
 $lblL.Text='ACTION 1  -  LEFT CLICK'; $lblL.Location=New-Object System.Drawing.Point(20,87)
 $lblL.Size=New-Object System.Drawing.Size(260,16); $lblL.Font=F 'Segoe UI' 8 'Bold'
@@ -184,7 +216,6 @@ $thumbL.Cursor=[System.Windows.Forms.Cursors]::Hand
 $thumbL.Location=New-Object System.Drawing.Point(($card.Left+20-[int]($TH/2)),($card.Top+143-[int](($TV-$TK)/2)))
 $form.Controls.Add($thumbL)
 
-# ── RIGHT SLOT ──
 $lblR=New-Object System.Windows.Forms.Label
 $lblR.Text='ACTION 2  -  RIGHT CLICK'; $lblR.Location=New-Object System.Drawing.Point(20,175)
 $lblR.Size=New-Object System.Drawing.Size(260,16); $lblR.Font=F 'Segoe UI' 8 'Bold'
@@ -216,7 +247,6 @@ $thumbR.Cursor=[System.Windows.Forms.Cursors]::Hand
 $thumbR.Location=New-Object System.Drawing.Point(($card.Left+20-[int]($TH/2)),($card.Top+231-[int](($TV-$TK)/2)))
 $form.Controls.Add($thumbR)
 
-# ── Status / Credits ──
 $lblStatus=New-Object System.Windows.Forms.Label
 $lblStatus.Text='● READY'; $lblStatus.Location=New-Object System.Drawing.Point(0,263)
 $lblStatus.Size=New-Object System.Drawing.Size(300,34); $lblStatus.Font=F 'Segoe UI' 9 'Italic'
@@ -229,7 +259,6 @@ $lblCred.Size=New-Object System.Drawing.Size(300,22); $lblCred.Font=F 'Segoe UI'
 $lblCred.ForeColor=[System.Drawing.Color]::FromArgb(50,50,50); $lblCred.BackColor=[System.Drawing.Color]::Transparent
 $lblCred.TextAlign='MiddleCenter'; $card.Controls.Add($lblCred)
 
-# ── Window buttons ──
 $btnMin=New-Object System.Windows.Forms.Button; $btnMin.Text='-'
 $btnMin.Location=New-Object System.Drawing.Point(400,12); $btnMin.Size=New-Object System.Drawing.Size(24,20)
 $btnMin.FlatStyle='Flat'; $btnMin.BackColor=[System.Drawing.Color]::Transparent; $btnMin.ForeColor=$CD
@@ -244,38 +273,36 @@ $btnClose.Font=F 'Segoe UI' 9 'Bold'; $btnClose.FlatAppearance.BorderSize=0
 $btnClose.Add_MouseEnter({$btnClose.ForeColor=[System.Drawing.Color]::FromArgb(255,70,70)})
 $btnClose.Add_MouseLeave({$btnClose.ForeColor=$CD})
 $btnClose.Add_Click({
-    foreach($t in @($script:timerL,$script:timerR,$script:timerPoll,$script:timerAnim)){if($t){$t.Stop();$t.Dispose()}}
+    Invoke-Expression "[$($script:uid1)]::StopLeft()"
+    Invoke-Expression "[$($script:uid1)]::StopRight()"
+    foreach($t in @($script:timerPoll,$script:timerAnim)){if($t){$t.Stop();$t.Dispose()}}
     $script:bmp.Dispose(); $form.Close()
 }); $form.Controls.Add($btnClose)
 
-# ── Slider update helpers (each wired directly, no shared loop var) ──
 function SetCpsL($rawX){
     $cl=[math]::Max(0,[math]::Min($SW,$rawX))
     $nc=[math]::Max(1,[math]::Min(500,[int]($cl/$SW*499)+1))
     $script:leftCps=$nc
-    $fillL.Width=[math]::Max(1,[int]($SW*($nc-1)/499.0))
-    $tx=$card.Left+$trackL.Left+[int]($SW*($nc-1)/499.0)-[int]($TH/2)
-    $ty=$card.Top+$trackL.Top-[int](($TV-$TK)/2)
-    $thumbL.Location=New-Object System.Drawing.Point($tx,$ty)
+    $px=[int]($SW*($nc-1)/499.0)
+    $fillL.Width=[math]::Max(1,$px)
+    $thumbL.Location=New-Object System.Drawing.Point(($card.Left+$trackL.Left+$px-[int]($TH/2)),($card.Top+$trackL.Top-[int](($TV-$TK)/2)))
     $lblCpsL.Text="$nc CPS"
-    if($script:leftActive -and $script:timerL){$script:timerL.Interval=[math]::Max(1,[int](1000.0/$nc))}
+    if($script:leftActive){ Invoke-Expression "[$($script:uid1)]::SetCpsLeft($nc)" }
 }
 function SetCpsR($rawX){
     $cl=[math]::Max(0,[math]::Min($SW,$rawX))
     $nc=[math]::Max(1,[math]::Min(500,[int]($cl/$SW*499)+1))
     $script:rightCps=$nc
-    $fillR.Width=[math]::Max(1,[int]($SW*($nc-1)/499.0))
-    $tx=$card.Left+$trackR.Left+[int]($SW*($nc-1)/499.0)-[int]($TH/2)
-    $ty=$card.Top+$trackR.Top-[int](($TV-$TK)/2)
-    $thumbR.Location=New-Object System.Drawing.Point($tx,$ty)
+    $px=[int]($SW*($nc-1)/499.0)
+    $fillR.Width=[math]::Max(1,$px)
+    $thumbR.Location=New-Object System.Drawing.Point(($card.Left+$trackR.Left+$px-[int]($TH/2)),($card.Top+$trackR.Top-[int](($TV-$TK)/2)))
     $lblCpsR.Text="$nc CPS"
-    if($script:rightActive -and $script:timerR){$script:timerR.Interval=[math]::Max(1,[int](1000.0/$nc))}
+    if($script:rightActive){ Invoke-Expression "[$($script:uid1)]::SetCpsRight($nc)" }
 }
 
-SetCpsL 0; SetCpsR 0
-SetCpsL ([int]($SW*9/499.0)); SetCpsR ([int]($SW*9/499.0))
+SetCpsL ([int]($SW*9/499.0))
+SetCpsR ([int]($SW*9/499.0))
 
-# ── Slider mouse events wired directly ──
 $trackL.Add_MouseDown({param($s,$e);if($e.Button -eq 'Left'){$script:draggingL=$true;SetCpsL $e.X;$form.Capture=$true}})
 $thumbL.Add_MouseDown({param($s,$e);if($e.Button -eq 'Left'){$script:draggingL=$true;$form.Capture=$true}})
 $trackR.Add_MouseDown({param($s,$e);if($e.Button -eq 'Left'){$script:draggingR=$true;SetCpsR $e.X;$form.Capture=$true}})
@@ -285,11 +312,11 @@ $form.Add_MouseMove({
     param($src,$e)
     if($script:draggingL){
         $cp=$card.PointToClient($form.PointToScreen($e.Location))
-        SetCpsL ($cp.X - $trackL.Left)
+        SetCpsL ($cp.X-$trackL.Left)
     }
     if($script:draggingR){
         $cp=$card.PointToClient($form.PointToScreen($e.Location))
-        SetCpsR ($cp.X - $trackR.Left)
+        SetCpsR ($cp.X-$trackR.Left)
     }
     if($script:dragForm){
         $form.Location=New-Object System.Drawing.Point(
@@ -298,7 +325,6 @@ $form.Add_MouseMove({
     }
 })
 $form.Add_MouseUp({$script:draggingL=$false;$script:draggingR=$false;$script:dragForm=$false;$form.Capture=$false})
-
 $form.Add_MouseDown({
     param($s,$e)
     if($e.Button -eq 'Left' -and $e.Y -lt 45 -and -not $script:draggingL -and -not $script:draggingR){
@@ -306,21 +332,16 @@ $form.Add_MouseDown({
     }
 })
 
-# ── Toggle functions ──
 function Toggle-Left {
     $script:leftActive=-not $script:leftActive
     if($script:leftActive){
         $btnL.BackColor=$CY;$btnL.ForeColor=$BK
         $lblStatus.Text='▶ ACTION 1 ACTIVE';$lblStatus.ForeColor=$CY
-        if($script:timerL){$script:timerL.Stop();$script:timerL.Dispose()}
-        $script:timerL=New-Object System.Windows.Forms.Timer
-        $script:timerL.Interval=[math]::Max(1,[int](1000.0/$script:leftCps))
-        $script:timerL.Add_Tick({Invoke-Expression "[$($script:uid1)]::ClickLeft()"})
-        $script:timerL.Start()
+        Invoke-Expression "[$($script:uid1)]::StartLeft($script:leftCps)"
     } else {
         $btnL.BackColor=$CK;$btnL.ForeColor=$CT
         $lblStatus.Text='■ ACTION 1 STOPPED';$lblStatus.ForeColor=$CD
-        if($script:timerL){$script:timerL.Stop()}
+        Invoke-Expression "[$($script:uid1)]::StopLeft()"
     }
 }
 function Toggle-Right {
@@ -328,15 +349,11 @@ function Toggle-Right {
     if($script:rightActive){
         $btnR.BackColor=$CY;$btnR.ForeColor=$BK
         $lblStatus.Text='▶ ACTION 2 ACTIVE';$lblStatus.ForeColor=$CY
-        if($script:timerR){$script:timerR.Stop();$script:timerR.Dispose()}
-        $script:timerR=New-Object System.Windows.Forms.Timer
-        $script:timerR.Interval=[math]::Max(1,[int](1000.0/$script:rightCps))
-        $script:timerR.Add_Tick({Invoke-Expression "[$($script:uid1)]::ClickRight()"})
-        $script:timerR.Start()
+        Invoke-Expression "[$($script:uid1)]::StartRight($script:rightCps)"
     } else {
         $btnR.BackColor=$CK;$btnR.ForeColor=$CT
         $lblStatus.Text='■ ACTION 2 STOPPED';$lblStatus.ForeColor=$CD
-        if($script:timerR){$script:timerR.Stop()}
+        Invoke-Expression "[$($script:uid1)]::StopRight()"
     }
 }
 
@@ -402,7 +419,9 @@ $script:timerAnim.Add_Tick({
 $script:timerAnim.Start()
 
 $form.Add_FormClosing({
-    foreach($t in @($script:timerL,$script:timerR,$script:timerPoll,$script:timerAnim)){if($t){$t.Stop();$t.Dispose()}}
+    Invoke-Expression "[$($script:uid1)]::StopLeft()"
+    Invoke-Expression "[$($script:uid1)]::StopRight()"
+    foreach($t in @($script:timerPoll,$script:timerAnim)){if($t){$t.Stop();$t.Dispose()}}
     if($script:bmp){$script:bmp.Dispose()}
 })
 
