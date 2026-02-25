@@ -1,2 +1,2 @@
 # Hero
-Hero developers
+Simple Clicker ps1
