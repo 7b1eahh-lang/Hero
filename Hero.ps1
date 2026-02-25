@@ -1,4 +1,4 @@
-$ErrorActionPreference = ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('U2lsZW50bHlDb250aW51ZQ==')))
+$ErrorActionPreference = 'SilentlyContinue'
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
@@ -73,17 +73,17 @@ $script:nodes=@()
 $script:bmp=New-Object System.Drawing.Bitmap(460,440)
 
 $keyMap=@{
-    ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RjE=')))=0x70;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RjI=')))=0x71;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RjM=')))=0x72;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RjQ=')))=0x73;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RjU=')))=0x74;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RjY=')))=0x75
-    ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Rjc=')))=0x76;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Rjg=')))=0x77;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Rjk=')))=0x78;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RjEw')))=0x79;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RjEx')))=0x7A;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RjEy')))=0x7B
-    ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('QQ==')))=0x41;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Qg==')))=0x42;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Qw==')))=0x43;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RA==')))=0x44;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RQ==')))=0x45;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Rg==')))=0x46
-    ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Rw==')))=0x47;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('SA==')))=0x48;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('SQ==')))=0x49;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Sg==')))=0x4A;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Sw==')))=0x4B;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TA==')))=0x4C
-    ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TQ==')))=0x4D;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Tg==')))=0x4E;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Tw==')))=0x4F;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('UA==')))=0x50;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('UQ==')))=0x51;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Ug==')))=0x52
-    ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Uw==')))=0x53;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('VA==')))=0x54;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('VQ==')))=0x55;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Vg==')))=0x56;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Vw==')))=0x57;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('WA==')))=0x58
-    ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('WQ==')))=0x59;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Wg==')))=0x5A
-    ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RDA=')))=0x30;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RDE=')))=0x31;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RDI=')))=0x32;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RDM=')))=0x33;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RDQ=')))=0x34
-    ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RDU=')))=0x35;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RDY=')))=0x36;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RDc=')))=0x37;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RDg=')))=0x38;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RDk=')))=0x39
-    ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('U3BhY2U=')))=0x20;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('U2hpZnQ=')))=0x10;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Q29udHJvbA==')))=0x11;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('QWx0')))=0x12
-    ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('WEJ1dHRvbjE=')))=0x05;([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('WEJ1dHRvbjI=')))=0x06
+    'F1'=0x70;'F2'=0x71;'F3'=0x72;'F4'=0x73;'F5'=0x74;'F6'=0x75
+    'F7'=0x76;'F8'=0x77;'F9'=0x78;'F10'=0x79;'F11'=0x7A;'F12'=0x7B
+    'A'=0x41;'B'=0x42;'C'=0x43;'D'=0x44;'E'=0x45;'F'=0x46
+    'G'=0x47;'H'=0x48;'I'=0x49;'J'=0x4A;'K'=0x4B;'L'=0x4C
+    'M'=0x4D;'N'=0x4E;'O'=0x4F;'P'=0x50;'Q'=0x51;'R'=0x52
+    'S'=0x53;'T'=0x54;'U'=0x55;'V'=0x56;'W'=0x57;'X'=0x58
+    'Y'=0x59;'Z'=0x5A
+    'D0'=0x30;'D1'=0x31;'D2'=0x32;'D3'=0x33;'D4'=0x34
+    'D5'=0x35;'D6'=0x36;'D7'=0x37;'D8'=0x38;'D9'=0x39
+    'Space'=0x20;'Shift'=0x10;'Control'=0x11;'Alt'=0x12
+    'XButton1'=0x05;'XButton2'=0x06
 }
 
 $rng=New-Object System.Random
@@ -104,7 +104,7 @@ $CK=[System.Drawing.Color]::FromArgb(40,40,40)
 $CW=[System.Drawing.Color]::White
 $BK=[System.Drawing.Color]::Black
 
-function F($n,$sz,$b=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('UmVndWxhcg==')))){New-Object System.Drawing.Font($n,$sz,[System.Drawing.FontStyle]::$b)}
+function F($n,$sz,$b='Regular'){New-Object System.Drawing.Font($n,$sz,[System.Drawing.FontStyle]::$b)}
 
 function RenderConstellation {
     $g=[System.Drawing.Graphics]::FromImage($script:bmp)
@@ -137,11 +137,11 @@ function RenderConstellation {
 }
 
 $form=New-Object System.Windows.Forms.Form
-$form.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('SEVSTyBDbGlja2Vy')))
+$form.Text='HERO CS'
 $form.ClientSize=New-Object System.Drawing.Size(460,440)
-$form.StartPosition=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Q2VudGVyU2NyZWVu')))
+$form.StartPosition='CenterScreen'
 $form.BackColor=$CB
-$form.FormBorderStyle=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Tm9uZQ==')))
+$form.FormBorderStyle='None'
 $form.TopMost=$true
 $form.KeyPreview=$true
 $form.DoubleBuffered=$true
@@ -164,15 +164,15 @@ $card.Add_Paint({
 })
 
 $lblTitle=New-Object System.Windows.Forms.Label
-$lblTitle.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('SEVSTw=='))); $lblTitle.Location=New-Object System.Drawing.Point(0,12)
-$lblTitle.Size=New-Object System.Drawing.Size(300,44); $lblTitle.Font=F ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('SW1wYWN0'))) 30
-$lblTitle.ForeColor=$CY; $lblTitle.TextAlign=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TWlkZGxlQ2VudGVy'))); $lblTitle.BackColor=[System.Drawing.Color]::Transparent
+$lblTitle.Text='HERO'; $lblTitle.Location=New-Object System.Drawing.Point(0,12)
+$lblTitle.Size=New-Object System.Drawing.Size(300,44); $lblTitle.Font=F 'Impact' 30
+$lblTitle.ForeColor=$CY; $lblTitle.TextAlign='MiddleCenter'; $lblTitle.BackColor=[System.Drawing.Color]::Transparent
 $card.Controls.Add($lblTitle)
 
 $lblSub=New-Object System.Windows.Forms.Label
-$lblSub.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('4oCiIEF1dG8gQ2xpY2tlciDigKI='))); $lblSub.Location=New-Object System.Drawing.Point(0,56)
-$lblSub.Size=New-Object System.Drawing.Size(300,16); $lblSub.Font=F ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('U2Vnb2UgVUk='))) 8
-$lblSub.ForeColor=$CD; $lblSub.TextAlign=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TWlkZGxlQ2VudGVy'))); $lblSub.BackColor=[System.Drawing.Color]::Transparent
+$lblSub.Text='• Auto CS •'; $lblSub.Location=New-Object System.Drawing.Point(0,56)
+$lblSub.Size=New-Object System.Drawing.Size(300,16); $lblSub.Font=F 'Segoe UI' 8
+$lblSub.ForeColor=$CD; $lblSub.TextAlign='MiddleCenter'; $lblSub.BackColor=[System.Drawing.Color]::Transparent
 $card.Controls.Add($lblSub)
 
 function MakeSep($y){
@@ -186,21 +186,21 @@ MakeSep 78; MakeSep 165; MakeSep 254
 $SW=240; $TH=14; $TK=6; $TV=22
 
 $lblL=New-Object System.Windows.Forms.Label
-$lblL.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('QUNUSU9OIDEgIC0gIExFRlQgQ0xJQ0s='))); $lblL.Location=New-Object System.Drawing.Point(20,87)
-$lblL.Size=New-Object System.Drawing.Size(260,16); $lblL.Font=F ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('U2Vnb2UgVUk='))) 8 ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Qm9sZA==')))
+$lblL.Text='ACTION 1  -  LEFT CS'; $lblL.Location=New-Object System.Drawing.Point(20,87)
+$lblL.Size=New-Object System.Drawing.Size(260,16); $lblL.Font=F 'Segoe UI' 8 'Bold'
 $lblL.ForeColor=$CD; $lblL.BackColor=[System.Drawing.Color]::Transparent; $card.Controls.Add($lblL)
 
 $btnL=New-Object System.Windows.Forms.Button
-$btnL.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('QklORCBLRVk='))); $btnL.Location=New-Object System.Drawing.Point(20,107)
-$btnL.Size=New-Object System.Drawing.Size(110,28); $btnL.FlatStyle=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RmxhdA==')))
-$btnL.BackColor=$CK; $btnL.ForeColor=$CT; $btnL.Font=F ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('U2Vnb2UgVUk='))) 8 ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Qm9sZA==')))
+$btnL.Text='BIND KEY'; $btnL.Location=New-Object System.Drawing.Point(20,107)
+$btnL.Size=New-Object System.Drawing.Size(110,28); $btnL.FlatStyle='Flat'
+$btnL.BackColor=$CK; $btnL.ForeColor=$CT; $btnL.Font=F 'Segoe UI' 8 'Bold'
 $btnL.FlatAppearance.BorderColor=$CR; $btnL.FlatAppearance.BorderSize=1
 $btnL.Cursor=[System.Windows.Forms.Cursors]::Hand; $card.Controls.Add($btnL)
 
 $lblCpsL=New-Object System.Windows.Forms.Label
-$lblCpsL.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('MTAgQ1BT'))); $lblCpsL.Location=New-Object System.Drawing.Point(140,107)
-$lblCpsL.Size=New-Object System.Drawing.Size(140,28); $lblCpsL.Font=F ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('U2Vnb2UgVUk='))) 12 ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Qm9sZA==')))
-$lblCpsL.ForeColor=$CY; $lblCpsL.BackColor=[System.Drawing.Color]::Transparent; $lblCpsL.TextAlign=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TWlkZGxlUmlnaHQ=')))
+$lblCpsL.Text='10 CS'; $lblCpsL.Location=New-Object System.Drawing.Point(140,107)
+$lblCpsL.Size=New-Object System.Drawing.Size(140,28); $lblCpsL.Font=F 'Segoe UI' 12 'Bold'
+$lblCpsL.ForeColor=$CY; $lblCpsL.BackColor=[System.Drawing.Color]::Transparent; $lblCpsL.TextAlign='MiddleRight'
 $card.Controls.Add($lblCpsL)
 
 $trackL=New-Object System.Windows.Forms.Panel
@@ -217,21 +217,21 @@ $thumbL.Location=New-Object System.Drawing.Point(($card.Left+20-[int]($TH/2)),($
 $form.Controls.Add($thumbL)
 
 $lblR=New-Object System.Windows.Forms.Label
-$lblR.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('QUNUSU9OIDIgIC0gIFJJR0hUIENMSUNL'))); $lblR.Location=New-Object System.Drawing.Point(20,175)
-$lblR.Size=New-Object System.Drawing.Size(260,16); $lblR.Font=F ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('U2Vnb2UgVUk='))) 8 ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Qm9sZA==')))
+$lblR.Text='ACTION 2  -  RIGHT CS'; $lblR.Location=New-Object System.Drawing.Point(20,175)
+$lblR.Size=New-Object System.Drawing.Size(260,16); $lblR.Font=F 'Segoe UI' 8 'Bold'
 $lblR.ForeColor=$CD; $lblR.BackColor=[System.Drawing.Color]::Transparent; $card.Controls.Add($lblR)
 
 $btnR=New-Object System.Windows.Forms.Button
-$btnR.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('QklORCBLRVk='))); $btnR.Location=New-Object System.Drawing.Point(20,195)
-$btnR.Size=New-Object System.Drawing.Size(110,28); $btnR.FlatStyle=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RmxhdA==')))
-$btnR.BackColor=$CK; $btnR.ForeColor=$CT; $btnR.Font=F ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('U2Vnb2UgVUk='))) 8 ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Qm9sZA==')))
+$btnR.Text='BIND KEY'; $btnR.Location=New-Object System.Drawing.Point(20,195)
+$btnR.Size=New-Object System.Drawing.Size(110,28); $btnR.FlatStyle='Flat'
+$btnR.BackColor=$CK; $btnR.ForeColor=$CT; $btnR.Font=F 'Segoe UI' 8 'Bold'
 $btnR.FlatAppearance.BorderColor=$CR; $btnR.FlatAppearance.BorderSize=1
 $btnR.Cursor=[System.Windows.Forms.Cursors]::Hand; $card.Controls.Add($btnR)
 
 $lblCpsR=New-Object System.Windows.Forms.Label
-$lblCpsR.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('MTAgQ1BT'))); $lblCpsR.Location=New-Object System.Drawing.Point(140,195)
-$lblCpsR.Size=New-Object System.Drawing.Size(140,28); $lblCpsR.Font=F ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('U2Vnb2UgVUk='))) 12 ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Qm9sZA==')))
-$lblCpsR.ForeColor=$CY; $lblCpsR.BackColor=[System.Drawing.Color]::Transparent; $lblCpsR.TextAlign=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TWlkZGxlUmlnaHQ=')))
+$lblCpsR.Text='10 CS'; $lblCpsR.Location=New-Object System.Drawing.Point(140,195)
+$lblCpsR.Size=New-Object System.Drawing.Size(140,28); $lblCpsR.Font=F 'Segoe UI' 12 'Bold'
+$lblCpsR.ForeColor=$CY; $lblCpsR.BackColor=[System.Drawing.Color]::Transparent; $lblCpsR.TextAlign='MiddleRight'
 $card.Controls.Add($lblCpsR)
 
 $trackR=New-Object System.Windows.Forms.Panel
@@ -248,33 +248,33 @@ $thumbR.Location=New-Object System.Drawing.Point(($card.Left+20-[int]($TH/2)),($
 $form.Controls.Add($thumbR)
 
 $lblStatus=New-Object System.Windows.Forms.Label
-$lblStatus.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('4pePIFJFQURZ'))); $lblStatus.Location=New-Object System.Drawing.Point(0,263)
-$lblStatus.Size=New-Object System.Drawing.Size(300,34); $lblStatus.Font=F ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('U2Vnb2UgVUk='))) 9 ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('SXRhbGlj')))
-$lblStatus.ForeColor=$CD; $lblStatus.BackColor=[System.Drawing.Color]::Transparent; $lblStatus.TextAlign=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TWlkZGxlQ2VudGVy')))
+$lblStatus.Text='● READY'; $lblStatus.Location=New-Object System.Drawing.Point(0,263)
+$lblStatus.Size=New-Object System.Drawing.Size(300,34); $lblStatus.Font=F 'Segoe UI' 9 'Italic'
+$lblStatus.ForeColor=$CD; $lblStatus.BackColor=[System.Drawing.Color]::Transparent; $lblStatus.TextAlign='MiddleCenter'
 $card.Controls.Add($lblStatus)
 
 $lblCred=New-Object System.Windows.Forms.Label
-$lblCred.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TWFkZSBieSBkcHNzczA='))); $lblCred.Location=New-Object System.Drawing.Point(0,305)
-$lblCred.Size=New-Object System.Drawing.Size(300,22); $lblCred.Font=F ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('U2Vnb2UgVUk='))) 7
+$lblCred.Text='Made by dpsss0'; $lblCred.Location=New-Object System.Drawing.Point(0,305)
+$lblCred.Size=New-Object System.Drawing.Size(300,22); $lblCred.Font=F 'Segoe UI' 7
 $lblCred.ForeColor=[System.Drawing.Color]::FromArgb(50,50,50); $lblCred.BackColor=[System.Drawing.Color]::Transparent
-$lblCred.TextAlign=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TWlkZGxlQ2VudGVy'))); $card.Controls.Add($lblCred)
+$lblCred.TextAlign='MiddleCenter'; $card.Controls.Add($lblCred)
 
-$btnMin=New-Object System.Windows.Forms.Button; $btnMin.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('LQ==')))
+$btnMin=New-Object System.Windows.Forms.Button; $btnMin.Text='-'
 $btnMin.Location=New-Object System.Drawing.Point(400,12); $btnMin.Size=New-Object System.Drawing.Size(24,20)
-$btnMin.FlatStyle=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RmxhdA=='))); $btnMin.BackColor=[System.Drawing.Color]::Transparent; $btnMin.ForeColor=$CD
-$btnMin.Font=F ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('U2Vnb2UgVUk='))) 10 ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Qm9sZA=='))); $btnMin.FlatAppearance.BorderSize=0
+$btnMin.FlatStyle='Flat'; $btnMin.BackColor=[System.Drawing.Color]::Transparent; $btnMin.ForeColor=$CD
+$btnMin.Font=F 'Segoe UI' 10 'Bold'; $btnMin.FlatAppearance.BorderSize=0
 $btnMin.Add_MouseEnter({$btnMin.ForeColor=$CW}); $btnMin.Add_MouseLeave({$btnMin.ForeColor=$CD})
-$btnMin.Add_Click({$form.WindowState=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TWluaW1pemVk')))}); $form.Controls.Add($btnMin)
+$btnMin.Add_Click({$form.WindowState='Minimized'}); $form.Controls.Add($btnMin)
 
-$btnClose=New-Object System.Windows.Forms.Button; $btnClose.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('WA==')))
+$btnClose=New-Object System.Windows.Forms.Button; $btnClose.Text='X'
 $btnClose.Location=New-Object System.Drawing.Point(428,12); $btnClose.Size=New-Object System.Drawing.Size(24,20)
-$btnClose.FlatStyle=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('RmxhdA=='))); $btnClose.BackColor=[System.Drawing.Color]::Transparent; $btnClose.ForeColor=$CD
-$btnClose.Font=F ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('U2Vnb2UgVUk='))) 9 ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Qm9sZA=='))); $btnClose.FlatAppearance.BorderSize=0
+$btnClose.FlatStyle='Flat'; $btnClose.BackColor=[System.Drawing.Color]::Transparent; $btnClose.ForeColor=$CD
+$btnClose.Font=F 'Segoe UI' 9 'Bold'; $btnClose.FlatAppearance.BorderSize=0
 $btnClose.Add_MouseEnter({$btnClose.ForeColor=[System.Drawing.Color]::FromArgb(255,70,70)})
 $btnClose.Add_MouseLeave({$btnClose.ForeColor=$CD})
 $btnClose.Add_Click({
-    Invoke-Expression (([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Ww=='))) + $($script:uid1) + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('XTo6U3RvcExlZnQoKQ=='))))
-    Invoke-Expression (([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Ww=='))) + $($script:uid1) + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('XTo6U3RvcFJpZ2h0KCk='))))
+    Invoke-Expression "[$($script:uid1)]::StopLeft()"
+    Invoke-Expression "[$($script:uid1)]::StopRight()"
     foreach($t in @($script:timerPoll,$script:timerAnim)){if($t){$t.Stop();$t.Dispose()}}
     $script:bmp.Dispose(); $form.Close()
 }); $form.Controls.Add($btnClose)
@@ -286,8 +286,8 @@ function SetCpsL($rawX){
     $px=[int]($SW*($nc-1)/499.0)
     $fillL.Width=[math]::Max(1,$px)
     $thumbL.Location=New-Object System.Drawing.Point(($card.Left+$trackL.Left+$px-[int]($TH/2)),($card.Top+$trackL.Top-[int](($TV-$TK)/2)))
-    $lblCpsL.Text=($nc + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('IENQUw=='))))
-    if($script:leftActive){ Invoke-Expression (([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Ww=='))) + $($script:uid1) + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('XTo6U2V0Q3BzTGVmdCg='))) + $nc + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('KQ==')))) }
+    $lblCpsL.Text="$nc CS"
+    if($script:leftActive){ Invoke-Expression "[$($script:uid1)]::SetCpsLeft($nc)" }
 }
 function SetCpsR($rawX){
     $cl=[math]::Max(0,[math]::Min($SW,$rawX))
@@ -296,17 +296,17 @@ function SetCpsR($rawX){
     $px=[int]($SW*($nc-1)/499.0)
     $fillR.Width=[math]::Max(1,$px)
     $thumbR.Location=New-Object System.Drawing.Point(($card.Left+$trackR.Left+$px-[int]($TH/2)),($card.Top+$trackR.Top-[int](($TV-$TK)/2)))
-    $lblCpsR.Text=($nc + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('IENQUw=='))))
-    if($script:rightActive){ Invoke-Expression (([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Ww=='))) + $($script:uid1) + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('XTo6U2V0Q3BzUmlnaHQo'))) + $nc + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('KQ==')))) }
+    $lblCpsR.Text="$nc CS"
+    if($script:rightActive){ Invoke-Expression "[$($script:uid1)]::SetCpsRight($nc)" }
 }
 
 SetCpsL ([int]($SW*9/499.0))
 SetCpsR ([int]($SW*9/499.0))
 
-$trackL.Add_MouseDown({param($s,$e);if($e.Button -eq ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TGVmdA==')))){$script:draggingL=$true;SetCpsL $e.X;$form.Capture=$true}})
-$thumbL.Add_MouseDown({param($s,$e);if($e.Button -eq ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TGVmdA==')))){$script:draggingL=$true;$form.Capture=$true}})
-$trackR.Add_MouseDown({param($s,$e);if($e.Button -eq ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TGVmdA==')))){$script:draggingR=$true;SetCpsR $e.X;$form.Capture=$true}})
-$thumbR.Add_MouseDown({param($s,$e);if($e.Button -eq ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TGVmdA==')))){$script:draggingR=$true;$form.Capture=$true}})
+$trackL.Add_MouseDown({param($s,$e);if($e.Button -eq 'Left'){$script:draggingL=$true;SetCpsL $e.X;$form.Capture=$true}})
+$thumbL.Add_MouseDown({param($s,$e);if($e.Button -eq 'Left'){$script:draggingL=$true;$form.Capture=$true}})
+$trackR.Add_MouseDown({param($s,$e);if($e.Button -eq 'Left'){$script:draggingR=$true;SetCpsR $e.X;$form.Capture=$true}})
+$thumbR.Add_MouseDown({param($s,$e);if($e.Button -eq 'Left'){$script:draggingR=$true;$form.Capture=$true}})
 
 $form.Add_MouseMove({
     param($src,$e)
@@ -327,7 +327,7 @@ $form.Add_MouseMove({
 $form.Add_MouseUp({$script:draggingL=$false;$script:draggingR=$false;$script:dragForm=$false;$form.Capture=$false})
 $form.Add_MouseDown({
     param($s,$e)
-    if($e.Button -eq ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('TGVmdA=='))) -and $e.Y -lt 45 -and -not $script:draggingL -and -not $script:draggingR){
+    if($e.Button -eq 'Left' -and $e.Y -lt 45 -and -not $script:draggingL -and -not $script:draggingR){
         $script:dragForm=$true;$script:dragPt=$e.Location
     }
 })
@@ -336,36 +336,36 @@ function Toggle-Left {
     $script:leftActive=-not $script:leftActive
     if($script:leftActive){
         $btnL.BackColor=$CY;$btnL.ForeColor=$BK
-        $lblStatus.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('4pa2IEFDVElPTiAxIEFDVElWRQ==')));$lblStatus.ForeColor=$CY
-        Invoke-Expression (([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Ww=='))) + $($script:uid1) + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('XTo6U3RhcnRMZWZ0KA=='))) + $script + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('OmxlZnRDcHMp'))))
+        $lblStatus.Text='▶ ACTION 1 ACTIVE';$lblStatus.ForeColor=$CY
+        Invoke-Expression "[$($script:uid1)]::StartLeft($script:leftCps)"
     } else {
         $btnL.BackColor=$CK;$btnL.ForeColor=$CT
-        $lblStatus.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('4pagIEFDVElPTiAxIFNUT1BQRUQ=')));$lblStatus.ForeColor=$CD
-        Invoke-Expression (([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Ww=='))) + $($script:uid1) + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('XTo6U3RvcExlZnQoKQ=='))))
+        $lblStatus.Text='■ ACTION 1 STOPPED';$lblStatus.ForeColor=$CD
+        Invoke-Expression "[$($script:uid1)]::StopLeft()"
     }
 }
 function Toggle-Right {
     $script:rightActive=-not $script:rightActive
     if($script:rightActive){
         $btnR.BackColor=$CY;$btnR.ForeColor=$BK
-        $lblStatus.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('4pa2IEFDVElPTiAyIEFDVElWRQ==')));$lblStatus.ForeColor=$CY
-        Invoke-Expression (([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Ww=='))) + $($script:uid1) + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('XTo6U3RhcnRSaWdodCg='))) + $script + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('OnJpZ2h0Q3BzKQ=='))))
+        $lblStatus.Text='▶ ACTION 2 ACTIVE';$lblStatus.ForeColor=$CY
+        Invoke-Expression "[$($script:uid1)]::StartRight($script:rightCps)"
     } else {
         $btnR.BackColor=$CK;$btnR.ForeColor=$CT
-        $lblStatus.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('4pagIEFDVElPTiAyIFNUT1BQRUQ=')));$lblStatus.ForeColor=$CD
-        Invoke-Expression (([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Ww=='))) + $($script:uid1) + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('XTo6U3RvcFJpZ2h0KCk='))))
+        $lblStatus.Text='■ ACTION 2 STOPPED';$lblStatus.ForeColor=$CD
+        Invoke-Expression "[$($script:uid1)]::StopRight()"
     }
 }
 
 $btnL.Add_Click({
     $script:waitL=$true
-    $btnL.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Li4u')));$btnL.BackColor=$CY;$btnL.ForeColor=$BK
-    $lblStatus.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('4pePIFBSRVNTIEEgS0VZ')));$lblStatus.ForeColor=$CY;$form.Focus()
+    $btnL.Text='...';$btnL.BackColor=$CY;$btnL.ForeColor=$BK
+    $lblStatus.Text='● PRESS A KEY';$lblStatus.ForeColor=$CY;$form.Focus()
 })
 $btnR.Add_Click({
     $script:waitR=$true
-    $btnR.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Li4u')));$btnR.BackColor=$CY;$btnR.ForeColor=$BK
-    $lblStatus.Text=([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('4pePIFBSRVNTIEEgS0VZ')));$lblStatus.ForeColor=$CY;$form.Focus()
+    $btnR.Text='...';$btnR.BackColor=$CY;$btnR.ForeColor=$BK
+    $lblStatus.Text='● PRESS A KEY';$lblStatus.ForeColor=$CY;$form.Focus()
 })
 
 $form.Add_KeyDown({
@@ -374,12 +374,12 @@ $form.Add_KeyDown({
     if($script:waitL -and $keyMap.ContainsKey($ks)){
         $script:leftVK=$keyMap[$ks]
         $btnL.Text=$ks;$btnL.BackColor=$CK;$btnL.ForeColor=$CT
-        $lblStatus.Text=(([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('4pePIEtFWSBTRVQ6IA=='))) + $ks);$lblStatus.ForeColor=$CD
+        $lblStatus.Text="● KEY SET: $ks";$lblStatus.ForeColor=$CD
         $script:waitL=$false;$script:skipL=$true
     } elseif($script:waitR -and $keyMap.ContainsKey($ks)){
         $script:rightVK=$keyMap[$ks]
         $btnR.Text=$ks;$btnR.BackColor=$CK;$btnR.ForeColor=$CT
-        $lblStatus.Text=(([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('4pePIEtFWSBTRVQ6IA=='))) + $ks);$lblStatus.ForeColor=$CD
+        $lblStatus.Text="● KEY SET: $ks";$lblStatus.ForeColor=$CD
         $script:waitR=$false;$script:skipR=$true
     }
 })
@@ -388,14 +388,14 @@ $script:timerPoll=New-Object System.Windows.Forms.Timer
 $script:timerPoll.Interval=50
 $script:timerPoll.Add_Tick({
     if($script:leftVK -ne 0){
-        $p=Invoke-Expression (([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Ww=='))) + $($script:uid2) + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('XTo6SXNQcmVzc2VkKA=='))) + $script + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('OmxlZnRWSyk='))))
+        $p=Invoke-Expression "[$($script:uid2)]::IsPressed($script:leftVK)"
         if($p -and -not $script:prevL){
             if(-not $script:skipL){Toggle-Left}else{$script:skipL=$false}
             $script:prevL=$true
         } elseif(-not $p){$script:prevL=$false}
     }
     if($script:rightVK -ne 0){
-        $p=Invoke-Expression (([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Ww=='))) + $($script:uid2) + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('XTo6SXNQcmVzc2VkKA=='))) + $script + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('OnJpZ2h0Vksp'))))
+        $p=Invoke-Expression "[$($script:uid2)]::IsPressed($script:rightVK)"
         if($p -and -not $script:prevR){
             if(-not $script:skipR){Toggle-Right}else{$script:skipR=$false}
             $script:prevR=$true
@@ -419,8 +419,8 @@ $script:timerAnim.Add_Tick({
 $script:timerAnim.Start()
 
 $form.Add_FormClosing({
-    Invoke-Expression (([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Ww=='))) + $($script:uid1) + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('XTo6U3RvcExlZnQoKQ=='))))
-    Invoke-Expression (([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('Ww=='))) + $($script:uid1) + ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('XTo6U3RvcFJpZ2h0KCk='))))
+    Invoke-Expression "[$($script:uid1)]::StopLeft()"
+    Invoke-Expression "[$($script:uid1)]::StopRight()"
     foreach($t in @($script:timerPoll,$script:timerAnim)){if($t){$t.Stop();$t.Dispose()}}
     if($script:bmp){$script:bmp.Dispose()}
 })
